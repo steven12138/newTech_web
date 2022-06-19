@@ -1,6 +1,6 @@
 <template>
   <t-row style="display: flex;justify-content: center;align-items: center;">
-    <t-card class="otr" style="margin-bottom: 10px;">
+    <t-card class="otr" style="margin-bottom: 10px;max-width:100%;">
       <t-row>
         <img alt="" class="big"
              src="https://s1.ax1x.com/2022/06/19/Xjt4fA.png" style="max-height:140px;max-width: 300px;margin:10px;">
