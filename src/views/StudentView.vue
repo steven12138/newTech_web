@@ -4,8 +4,9 @@
     <t-content style="padding:20px;">
       <t-card :title="card_title" class="advanced-card" style="margin:10px;">
         <template #actions>
-          <t-button :disabled="step!==0" :theme="step===0?'warning':'primary'" shape="round" variant="outline">
-            <Icon name="edit" style="margin-top:-2px;"/>
+          <t-button :disabled="step!==0" :theme="step===0?'warning':'primary'" shape="round" variant="outline"
+                    @click="handle_error">
+            <Icon name="help-circle" style="margin-top:-2px;"/>
             {{ step === 0 ? "信息有误" : "已确认" }}
           </t-button>
         </template>
@@ -197,6 +198,8 @@ export default {
       step: -1,
       signTech: false,
       signPhy: false,
+      errorDia: null,
+      errorMsg: ""
     }
   },
   computed: {
@@ -207,6 +210,23 @@ export default {
   methods: {
     backward: function (i) {
       this.step = i;
+    },
+    handle_error: function () {
+      axios.get("/info/error").then((res) => {
+        let data = ResponseCodeService.parse(this, res);
+        if (data === -1) return;
+        if (this.errorDia) {
+          this.errorDia.show();
+          return;
+        }
+        this.errorDia = this.$dialog({
+          header: "提示：更改个人信息",
+          body: data,
+          confirmBtn: "知道了",
+          cancelBtn: null,
+          onConfirm: ({e}) => this.errorDia.hide()
+        })
+      }).catch((e) => console.error(e));
     },
     SignUp: function (detail) {
       if (detail.length === 0) return;

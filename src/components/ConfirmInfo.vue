@@ -20,7 +20,7 @@
             <div class="t-notification__content">
               <span>请确认个人信息准确无误</span>
               <br/>
-              <span>您可以使用右上角的按钮修改个人信息</span>
+              <span>如后续发现问题，由考生自行负责</span>
             </div>
             <div class="t-notification__detail">
               <t-button style="margin-bottom: -10px;" theme="primary" variant="outline" @click="confirmInfo">下一步
