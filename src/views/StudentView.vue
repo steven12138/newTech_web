@@ -21,7 +21,7 @@
           </t-col>
           <t-col class="full" flex="1 0 300px" style="margin:10px;">
             <t-row>
-              <t-col class="title" flex="1 0 100px">姓名</t-col>
+              <t-col class="title" flex="1 0 100px">姓名:</t-col>
               <t-col class="detail" flex="1 0 100px">{{ baseInfoData["real_name"] }}</t-col>
             </t-row>
           </t-col>
@@ -29,14 +29,14 @@
         <t-row>
           <t-col class="full" flex="1 0 300px" style="margin:10px;">
             <t-row>
-              <t-col class="title" flex="1 0 100px">学号</t-col>
+              <t-col class="title" flex="1 0 100px">学号:</t-col>
               <t-col class="detail" flex="1 0 100px">{{ baseInfoData.sid }}</t-col>
             </t-row>
           </t-col>
           <t-col class="full" flex="1 0 300px" style="margin:10px;">
             <t-row>
               <t-col class="title" flex="1 0 100px">
-                学考号
+                学考号:
                 <t-popup :content="eid_desc" :showArrow="true" placement="bottom-left">
                   <Icon name="help-circle" style="margin-bottom: 3px;cursor: pointer"/>
                 </t-popup>
@@ -48,7 +48,7 @@
         <t-row>
           <t-col class="full" flex="1 0 300px" style="margin:10px;">
             <t-row>
-              <t-col class="title" flex="1 0 100px">信息技术学考</t-col>
+              <t-col class="title" flex="1 0 100px">信息技术学考:</t-col>
               <t-col v-if="isTech==null" class="detail" flex="1 0 100px">
                 <t-skeleton style="width:50px;margin-top:3px;margin-bottom: -3px" theme="text"/>
               </t-col>
@@ -89,7 +89,7 @@
           </t-col>
           <t-col class="full" flex="1 0 300px" style="margin:10px;">
             <t-row>
-              <t-col class="title" flex="1 0 100px">通用技术学考</t-col>
+              <t-col class="title" flex="1 0 100px">通用技术学考:</t-col>
               <t-col v-if="isPhy==null" class="detail" flex="1 0 100px">
                 <t-skeleton style="width:50px;margin-top:3px;margin-bottom: -3px" theme="text"/>
               </t-col>
@@ -170,9 +170,9 @@ import Header from "@/components/Header";
 import {Icon} from 'tdesign-icons-vue';
 import axios from "axios";
 import ResponseCodeService from "@/service/ResponseCodeService";
-import ConfirmInfo from "@/components/ConfirmInfo";
-import SignUpBox from "@/components/SignUpBox";
-import SuccessBox from "@/components/SuccessBox";
+import ConfirmInfo from "@/components/StudentView/ConfirmInfo";
+import SignUpBox from "@/components/StudentView/SignUpBox";
+import SuccessBox from "@/components/StudentView/SuccessBox";
 
 export default {
   name: "StudentView",
@@ -224,7 +224,7 @@ export default {
           body: data,
           confirmBtn: "知道了",
           cancelBtn: null,
-          onConfirm: ({e}) => this.errorDia.hide()
+          onConfirm: () => this.errorDia.hide()
         })
       }).catch((e) => console.error(e));
     },
@@ -290,8 +290,7 @@ export default {
       let data = ResponseCodeService.parse(self, res);
       if (data === -1) return;
       this.step = data;
-    }).catch((e) => {
-    })
+    }).catch((e) => console.error(e))
     axios.get('/examHistory', {
       headers: {
         Authorization: "Bearer " + this.$store.getters.token,
@@ -301,8 +300,7 @@ export default {
       if (data === -1) return;
       this.isTech = data["tech"];
       this.isPhy = data["phy"];
-    }).catch((e) => {
-    })
+    }).catch((e) => console.error(e))
   }
 }
 </script>
@@ -322,12 +320,6 @@ export default {
 
 @media screen and (max-width: 768px) {
   .bgp {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .smp {
     display: none;
   }
 }
