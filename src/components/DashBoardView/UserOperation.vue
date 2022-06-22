@@ -2,11 +2,11 @@
   <div>
     <t-row>
       <t-col :span="12">
-        <t-card :title="insertUserTitle" style="margin:10px;">
-          <t-form :data="insertUser">
+        <t-card :title="insertUserTitle" style="margin:10px;overflow-y:auto;">
+          <t-form ref="insertForm" :data="insertUser" :onSubmit="insertUserSubmit" style="min-width: 270px;">
             <t-row>
               <t-col>
-                <t-row>
+                <t-row style="margin-bottom: 20px;">
                   <t-form-item :rules="requiredRules" label="用户名" name="username">
                     <t-input v-model="insertUser.username" placeholder="请输入内容"></t-input>
                   </t-form-item>
@@ -15,9 +15,9 @@
                   </t-form-item>
                 </t-row>
               </t-col>
-              <t-col>
-                <t-row>
-                  <t-form-item :rules="requiredRules" label="姓名" name="name">
+              <t-col class="show-margin">
+                <t-row style="margin-bottom: 20px;">
+                  <t-form-item :rules="requiredRules" label="姓名" name="realName">
                     <t-input v-model="insertUser.realName" placeholder="请输入内容"></t-input>
                   </t-form-item>
                   <t-form-item :rules="requiredRules" label="学号" name="sid">
@@ -30,7 +30,7 @@
               </t-col>
             </t-row>
             <t-row>
-              <t-form-item :rules="requiredRules" label="角色" name="role">
+              <t-form-item label="角色" name="role">
                 <t-radio-group v-model="insertUser.isAdmin">
                   <t-radio :value="true">管理员</t-radio>
                   <t-radio :value="false">学生</t-radio>
@@ -46,10 +46,11 @@
                 <t-input-number v-model="insertUser.maxCredit"/>
               </t-form-item>
             </t-row>
-            <t-form-item style="margin-left: 100px">
-              <t-button style="margin-right: 10px" theme="default" type="reset" variant="base">重置</t-button>
-              <t-button style="margin-right: 10px" theme="primary" type="submit">提交</t-button>
-            </t-form-item>
+            <t-row class="show-wide-margin">
+              <t-form-item style="margin-left: 100px">
+                <t-button style="margin-right: 10px" theme="primary" type="submit">提交</t-button>
+              </t-form-item>
+            </t-row>
           </t-form>
         </t-card>
       </t-col>
@@ -85,6 +86,7 @@
 
 <script>
 import axios from "axios";
+import ResponseCodeService from "@/service/ResponseCodeService";
 
 export default {
   name: "UserOperation",
@@ -145,13 +147,60 @@ export default {
     checkExtension: function (file) {
       console.log(file);
       return file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    },
+    insertUserSubmit: function (context) {
+      console.log(context)
+      if (context.validateResult !== true) {
+        this.$message.warning("数据不符合要求");
+        return;
+      }
+      axios.post('/insertUser', {
+        realName: this.insertUser.realName,
+        username: this.insertUser.username,
+        password: this.insertUser.password,
+        sid: this.insertUser.sid,
+        eid: this.insertUser.eid,
+        maxCredit: this.insertUser.maxCredit,
+        _admin: this.insertUser.isAdmin,
+        _tech: this.insertUser.subject.includes("tech"),
+        _phy: this.insertUser.subject.includes("phy"),
+      }, {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.token,
+        }
+      }).then((res) => {
+        let data = ResponseCodeService.parse(this, res);
+        if (data === 1) return;
+        this.$notify.success({
+          title: "插入成功",
+          content: "用户插入成功",
+          closeBtn: true
+        })
+        this.insertUser = {
+          username: "",
+          realName: "",
+          subject: [],
+          isAdmin: false,
+          sid: "",
+          eid: "",
+          maxCredit: 0,
+          password: "",
+        }
+        this.$refs.insertForm.reset();
+      }).catch((e) => console.error(e));
     }
   }
 }
 </script>
 
-<style>
+<style lang="less">
 .small_upload > .t-upload__dragger {
   width: 100% !important;
+}
+
+@media screen and(max-width: 1147px) {
+  .show-wide-margin {
+    margin-top: 10px !important;
+  }
 }
 </style>

@@ -160,7 +160,7 @@
       </t-card>
     </t-content>
     <t-footer style="z-index:3;background-color:#fdfdfd">
-      Copyright @ 2021-{{ new Date().getFullYear() }} SubIT StevenKerman. All Rights Reserved
+      Copyright @ 2021-{{ new Date().getFullYear() }} StevenKerman.
     </t-footer>
   </t-layout>
 </template>

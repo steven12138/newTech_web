@@ -6,7 +6,7 @@
       <LoginBox style="z-index: 3"/>
     </t-content>
     <t-footer style="z-index:3;background-color:#fdfdfd">
-      Copyright @ 2021-{{ new Date().getFullYear() }} SubIT StevenKerman. All Rights Reserved
+      Copyright @ 2021-{{ new Date().getFullYear() }} StevenKerman.
     </t-footer>
   </t-layout>
 </template>
@@ -38,7 +38,7 @@ export default {
         body: "您已经登陆，是否继续上次进程?",
         confirmBtn: "确认",
         cancelBtn: "取消",
-        onConfirm: ({e}) => {
+        onConfirm: () => {
           this.login_confirm.hide();
           let role = this.$store.getters.role;
           if (role === "admin") {

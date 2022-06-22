@@ -1,5 +1,6 @@
 const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
+    publicPath: './',
     transpileDependencies: true,
     devServer: {
         open: true,//vue项目启动时自动打开浏览器

@@ -10,14 +10,42 @@ Vue.config.productionTip = false
 
 Vue.use(TDesign);
 
-if (process.env.NODE_ENV === "development") {
-    axios.defaults.baseURL = "/api";
-} else {
-    axios.defaults.baseURL = "";
-}
-
-new Vue({
+const vue = new Vue({
     router,
     store,
     render: h => h(App)
 }).$mount("#app")
+
+if (process.env.NODE_ENV === "development") {
+    axios.defaults.baseURL = "/api";
+} else {
+    axios.defaults.baseURL = "192.144.180.74:5081";
+}
+
+let isLoading = false;
+
+function error_alert() {
+    if (isLoading) {
+        // 终止后续代码的执行，终止请求
+        return
+    }
+    isLoading = true
+    vue.$message.error("登陆过期，请重新登录");
+    vue.$store.commit("logout");
+    router.push('/');
+    setTimeout(() => {
+        isLoading = false
+    }, 2000)
+}
+
+axios.interceptors.response.use(
+    res => {
+        return res;
+    },
+    error => {
+        if (error.request.status === 403) {
+            error_alert();
+        }
+        return Promise.reject(error);
+    }
+)
