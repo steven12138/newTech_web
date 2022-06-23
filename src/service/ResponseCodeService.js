@@ -118,6 +118,13 @@ export default {
                     closeBtn: true,
                 })
                 break;
+            case 10017:
+                self.$notify.error({
+                    title: "报名失败",
+                    content: "由于学分策略限制，您不可以参加本次报名",
+                    closeBtn: true,
+                })
+                break;
             case 90000:
                 self.$notify.info({
                     title: "API TEST",

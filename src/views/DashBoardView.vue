@@ -52,14 +52,12 @@ import {Icon} from 'tdesign-icons-vue';
 import MainDashBoard from "@/components/DashBoardView/MainDashBoard";
 import UserOperation from "@/components/DashBoardView/UserOperation";
 import SignUpSetting from "@/components/DashBoardView/SignUpSetting";
-import ExportData from "@/components/DashBoardView/ExportData";
 import Resources from "@/components/DashBoardView/Resources";
 
 export default {
   name: "DashBoardView",
   components: {
     Resources,
-    ExportData,
     SignUpSetting,
     UserOperation,
     MainDashBoard,
@@ -76,9 +74,16 @@ export default {
   methods: {
     menuChange: function (e) {
       this.side_menu = e;
-    }
+    },
+    col: function (e) {
+      this.collapsed = e.matches;
+    },
   },
   mounted() {
+    window.matchMedia("(max-width: 890px)").addEventListener('change', this.col);
+  },
+  beforeDestroy() {
+    window.matchMedia("(max-width: 890px)").removeEventListener('change', this.col);
   }
 }
 </script>

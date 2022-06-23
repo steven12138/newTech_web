@@ -38,7 +38,7 @@
         </t-col>
       </t-row>
     </t-card>
-    <t-card :title="user_title" style="margin:20px 0;overflow-x:auto">
+    <t-card :title="user_title" style="margin:15px 0 0 0;overflow-x:auto">
       <template #actions>
         <t-button theme="primary" variant="outline" @click="exportData">
           <Icon name="download" style="margin-top:-3px;"/>
@@ -49,7 +49,7 @@
           @page-change="tableChange"
           :columns="user_column"
           :data="users" :filter-value="filterValue" :pagination="page_settings" :sort="sort"
-          filter="multiple" rowKey="id"
+          rowKey="id"
           style="min-width:550px;" @filter-change="onFilterChange" @sort-change="sortChange">
         <template #_admin="{ row }">
           <t-tag v-if="row._admin" theme="warning">管理员</t-tag>
@@ -214,6 +214,7 @@ export default {
   components: {Icon},
   data() {
     return {
+      users_copy: [],
       hello_title: () => <span style="font-size:20px;font-weight:500">欢迎您 {this.$store.getters.username}</span>,
       user_title: () => <span style="font-size:20px;font-weight:500">用户列表</span>,
       status: null,
@@ -436,6 +437,7 @@ export default {
         let data = ResponseCodeService.parse(this, res);
         if (data === -1) return;
         this.users = data;
+        this.users_copy = JSON.parse(JSON.stringify(data));
         this.page_settings.total = data.length;
         this.page_settings.current = 1;
       }).catch((e) => console.error(e));
@@ -451,7 +453,7 @@ export default {
     request(filters) {
       const timer = setTimeout(() => {
         clearTimeout(timer);
-        this.users = this.users.filter((item) => {
+        this.users = this.users_copy.filter((item) => {
           let result = true;
           if (filters.sid) {
             result = item.sid.indexOf(filters.sid) !== -1;

@@ -11,6 +11,14 @@ function parsePayload(token) {
     return JSON.parse(Buffer.from(token.split(".")[1], 'base64').toString('utf-8'));
 }
 
+
+if (process.env.NODE_ENV === "development") {
+    axios.defaults.baseURL = "/api";
+} else {
+    axios.defaults.baseURL = "/api";
+    // axios.defaults.baseURL = "192.144.180.74:5319";
+}
+
 function token(state) {
     if (state.token !== "") return state.token;
     let token = localStorage.getItem("token");
@@ -25,8 +33,7 @@ function token(state) {
 export default new Vuex.Store({
     state: {
         token: "",
-    },
-    getters: {
+    }, getters: {
         token: function (state) {
             if (state.token !== "") return state.token;
             let token = localStorage.getItem("token");
@@ -36,14 +43,11 @@ export default new Vuex.Store({
                 return token;
             }
             return "";
-        },
-        parsePayload: function (state) {
+        }, parsePayload: function (state) {
             return JSON.parse(Buffer.from(token(state).split(".")[1], 'base64').toString('utf-8'));
-        },
-        isLoginStatic: function (state) {
+        }, isLoginStatic: function (state) {
             return token(state) !== "";
-        },
-        isLogin: async function (state) {
+        }, isLogin: async function (state) {
             let self = this;
             // console.log("check login")
             if (token(state) === "") return false;
@@ -57,35 +61,26 @@ export default new Vuex.Store({
                 // console.log(data);
                 if (data === -1) return;
                 login_status = true;
-            }).catch(e => {
-            })
+            }).catch(e => console.error(e))
             if (!login_status) {
                 state.token = "";
                 localStorage.setItem("token", "");
             }
             return login_status;
-        },
-        username: function (state) {
+        }, username: function (state) {
             return parsePayload(token(state)).username;
-        },
-        role: function (state) {
+        }, role: function (state) {
             return parsePayload(token(state))["is_admin"] ? "admin" : "student";
-        },
-        realName: function (state) {
+        }, realName: function (state) {
             return parsePayload(token(state))["real_name"];
         }
-    }
-    ,
-    mutations: {
+    }, mutations: {
         setLogin: function (state, token) {
             state.token = token;
             localStorage.setItem("token", token);
-        },
-        logout: function (state) {
+        }, logout: function (state) {
             state.token = "";
             localStorage.setItem("token", "");
         }
-    },
-    actions: {},
-    modules: {}
+    }, actions: {}, modules: {}
 })

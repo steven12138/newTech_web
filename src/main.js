@@ -19,7 +19,7 @@ const vue = new Vue({
 if (process.env.NODE_ENV === "development") {
     axios.defaults.baseURL = "/api";
 } else {
-    axios.defaults.baseURL = "192.144.180.74:5081";
+    axios.defaults.baseURL = "/api";
 }
 
 let isLoading = false;

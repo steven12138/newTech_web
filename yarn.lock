@@ -6080,10 +6080,10 @@ tdesign-icons-vue@~0.0.8:
     "@babel/runtime" "^7.16.3"
     classnames "^2.2.6"
 
-tdesign-vue@^0.42.1:
-  version "0.42.1"
-  resolved "https://registry.yarnpkg.com/tdesign-vue/-/tdesign-vue-0.42.1.tgz#2b040d2e384bce005f0705a6496af9e07c622e22"
-  integrity sha512-0VtQfaUqvu3b9BGnBLhHcibkEvubRn3n+ba7JKcSfF13a6QYiaP6NezKab9jwQwIBcuSyxy+x6u0ABDYuGssDA==
+tdesign-vue@0.41.7:
+  version "0.41.7"
+  resolved "https://registry.yarnpkg.com/tdesign-vue/-/tdesign-vue-0.41.7.tgz#eaa4bedea099af1f4c43263b37b3569c857b773e"
+  integrity sha512-K8uGR8Z888EqwHO2qQVXF6T55r64PWpOKCK5H2nbJp0FgZBk8TdRlQFr1qxI1jkRNDJUVKSNXW6O0XipM7uJOw==
   dependencies:
     "@babel/runtime" "^7.14.8"
     "@popperjs/core" "^2.4.0"

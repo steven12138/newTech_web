@@ -245,15 +245,15 @@ export default {
         this.panelSetting = JSON.parse(JSON.stringify(data));
         console.log(data);
       })
+      axios.get('/info/status').then((res) => {
+        let data = ResponseCodeService.parse(this, res);
+        if (data === -1) return;
+        this.status = data;
+      }).catch((e) => console.error(e))
     }
   },
   mounted() {
     this.flush_setting();
-    axios.get('/info/status').then((res) => {
-      let data = ResponseCodeService.parse(this, res);
-      if (data === -1) return;
-      this.status = data;
-    }).catch((e) => console.error(e))
     axios.get('/info/num', {
       headers: {
         Authorization: "Bearer " + this.$store.getters.token,

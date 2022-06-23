@@ -16,7 +16,7 @@
     "qs": "^6.10.5",
     "sass-loader": "^13.0.0",
     "tdesign-icons-vue": "^0.1.0",
-    "tdesign-vue": "^0.42.1",
+    "tdesign-vue": "0.41.7",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
